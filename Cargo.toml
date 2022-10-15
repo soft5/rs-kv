@@ -1,0 +1,126 @@
+[package]
+name = "rs-kv"
+version = "0.0.0"
+edition = "2021"
+autobins = false
+build = "build.rs"
+
+# bin define another name
+# `cargo run --bin name` will point to the path we define here(Should use autobins = false)
+[[bin]]
+name = "main" # Use web or whatever later.
+path = "src/main.rs"
+
+[[bin]]
+name = "user"
+path = "src/bin/user.rs"
+
+[[bin]]
+name = "cash"
+path = "src/bin/cash.rs"
+
+# Test whatever simple Rust code here.
+# [[bin]]
+# name = "draft"
+# path = "src/bin/draft.rs"
+
+[lib]
+name = "rs_kv"
+path = "src/lib.rs"
+
+[dependencies]
+chrono = { version = "0.4.11", features = ["serde"] }
+
+# CLI and stdout
+console = "0.15"
+prettytable-rs = "0.8.0"
+
+# SQLite and to reuse connection etc.
+# I used $cargo tree -d to find the duplicate dependency problem.
+lazy_static = "1.4.0"
+rusqlite = { version = "0.27.0", features = ["chrono"] }
+r2d2 = "0.8.8"
+r2d2_sqlite = "0.20.0"
+
+#security
+rand = "0.8"
+rust-argon2 = "1.0"
+
+# Web app with Warp
+# https://www.steadylearner.com/blog/read/How-to-use-Rust-Warp
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+tokio-rustls = "0.23"
+warp = "0.3.2"
+
+# 处理 protobuf 的代码
+prost = "0.9" 
+
+# 高效处理网络 buffer 的库
+bytes = "1"
+
+# 我们使用 HTTP status code 所以引入这个类型库
+http = "0.2" 
+
+# 错误定义和处理
+thiserror = "1" 
+
+# sled db
+sled = "0.34" 
+
+# toml 支持
+toml = "0.5" 
+
+# yamux 多路复用支持
+yamux = "0.10.0" 
+
+# raft-rs
+raft = { version = "0.6.0", default-features = false, features = ["protobuf-codec"] }
+# raft-proto = "0.6.0"
+# raft_log_engine = { path = "components/raft_log_engine", default-features = false }
+# raftstore = { path = "components/raftstore", default-features = false, features = ["engine_rocks"] }
+
+# [patch.crates-io]
+# TODO: remove this when new raft-rs is published.
+# raft = { git = "https://github.com/tikv/raft-rs", branch = "master" }
+raft-proto = { git = "https://github.com/tikv/raft-rs", branch = "master" }
+
+# 日志处理
+tracing-subscriber = "0.3" 
+
+# 处理临时目录和临时文件
+tempfile = "3" 
+
+# 并发 HashMap
+dashmap = "5" 
+
+# 日志处理
+tracing = "0.1" 
+
+# Serde
+serde = { version = "1.0.101", features = ["derive"] }
+serde_json = "1.0.41"
+serde_derive = "1.0.101"
+
+# Tempalte Engine
+tera = "1.2.0"
+
+# Pretty_env_logger uses env_logger and env_logger uses log.
+# So, you just need to know how to use pretty_env_logger mostly.
+# Log, debug etc.
+log = "0.4.8"
+pretty_env_logger = "0.4.0"
+bincode = "1.2.1"
+futures = "0.3.4"
+
+# Error handling, https://crates.io/crates/thiserror
+# You can also use anyhow https://github.com/dtolnay/anyhow
+# Or make custom_error handler with Warp API.
+# thiserror = "1.0.15"
+# anyhow = "1.0.28"
+
+
+[dev-dependencies]
+async-prost = "0.3" # 支持把 protobuf 封装成 TCP frame
+
+[build-dependencies]
+prost-build = "0.9" # 编译 protobuf
