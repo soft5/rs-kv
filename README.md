@@ -57,9 +57,8 @@ curl -X POST localhost:8000/api/user/v1/hset -b cookie.txt -L -H "Content-Type: 
 ```
 
 - hgetall
-curl -X POST localhost:8000/api/user/v1/hgetall -b cookie.txt -L -H "Content-Type: application/json" -d '{"table": "table1"}'
-curl -X GET localhost:8000/api/user/v1/hgetall/table1 -b cookie.txt -L 
-curl -X GET localhost:8000/api/user/v1/hgetall -b cookie.txt -L -H "Content-Type: application/json" -d '{"table": "table1"}'
+```console
+curl -X GET localhost:8000/api/user/v1/hgetall/table1 -b cookie.txt -L
 ```
 
 - hmset
